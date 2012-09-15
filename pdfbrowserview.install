@@ -1,0 +1,14 @@
+<?php
+
+function pdfbrowserview_enable() {
+    $newValue = variable_get('file_inline_types', array('^text/', '^image/', 'flash$'));
+    $newValue[] = "^application/pdf$";
+    variable_set('file_inline_types', $newValue);
+    watchdog('system', 'Added inline file type @mime.', array('@mime' => "^application/pdf$"), WATCHDOG_NOTICE);
+}
+
+function pdfbrowserview_disable() {
+    $newValue = variable_get('file_inline_types', array('^text/', '^image/', 'flash$'));
+    variable_set('file_inline_types', array_diff($newValue, array("^application/pdf$")));
+    watchdog('system', 'Removed inline file type @mime.', array('@mime' => "^application/pdf$"), WATCHDOG_NOTICE);
+}
